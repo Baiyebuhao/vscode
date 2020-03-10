@@ -1,0 +1,40 @@
+--------295	统计需求		何蓉				3、重要不紧急	2019.5.17	纪春艳	
+--------享宇钱包	每周二下午	固定需求	全产品	享宇钱包	公众号活动报名用户申请产品状态跟踪	
+--------根据所提供的用户的手机号，匹配用户的注册时间、申请时间、申请产品、授信额度、提现金额、提现时间
+SELECT a1.mbl_no_md5,
+       a1.mbl_no,
+       a1.registe_date,
+       a2.product_name,
+       a2.apply_time,
+       a2.credit_time,
+       a2.amount,
+       a3.cash_time,
+       a3.cash_amount     
+FROM warehouse_atomic_user_info a1
+left join warehouse_data_user_review_info a2
+  on a1.mbl_no = a2.mbl_no
+ and a1.data_source = a2.data_source
+left join warehouse_data_user_withdrawals_info a3
+  on a1.mbl_no = a3.mbl_no
+ and a1.data_source = a3.data_source
+ and a2.product_name = a3.product_name
+WHERE a1.data_source = 'xyqb'
+  and a1.mbl_no_md5 IN ('d8b41cd28239ad4ab46e458fc094131e',
+                        '8ad61324ec3806613ded8f338c6597f5',
+                        'ac1692a6df83ae18c12d5c68b9106742',
+                        'f839222b267273499fb413e93fee4a60',
+                        '739643542269db35a30dcf934a8a7aec',
+                        'b81ae16440ffe5979eeafed069890ef0',
+                        '8bbaddc471bf2fd18162b376707f32b4',
+                        '1589d60d90652f5221b5e16918cbe119',
+                        '6cfc072fcdf063207b0f1c0b13aa7811',
+                        '3e3cff387f37afb833f691352775aef4',
+                        '02ff2c19d43de2abcfc22b38edfa304e',
+                        '3d6443c7663ed2d3b624d2b681a5678a',
+                        '8a5a7bac808a83196d376a175f108ee6',
+                        'f0e4ede9925565117256fc08e2917a5d',
+                        '5776ca535afee8294c8a000d26d5f5cd',
+                        '0e2dccc13e3c51736487d543b602ee93',
+                        '5cbed84b6185172368e2bf0bccaac238',
+                        'b14c2df7f3c079d6416b276377666026',
+                        '064a653be309ea33eed407c59077dfbb')

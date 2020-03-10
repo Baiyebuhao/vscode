@@ -1,0 +1,27 @@
+-------2019年1.1--2019.2.12日+3.14日-3.24日注册，申请马上随借随还未通过用户
+1.法一
+select distinct mbl_no,apply_time from warehouse_data_user_review_info a
+where product_name = '随借随还-马上'
+and data_source = 'sjd'
+and status = '未通过'
+and apply_time >= '2019-01-01'
+and mbl_no in (
+select distinct mbl_no from warehouse_atomic_user_info b
+where data_source = 'sjd'
+  and registe_date between '2019-01-01' and '2019-02-12'
+   or registe_date between '2019-03-14' and '2019-03-24'
+)
+
+2.法二（存在问题）
+select distinct a.mbl_no
+from warehouse_data_user_review_info a
+left outer join warehouse_atomic_user_info b
+on a.mbl_no = b.mbl_no
+where b.mbl_no is not null
+  and a.data_source = 'sjd'
+  and b.data_source = 'sjd'
+  and a.product_name = '随借随还-马上'
+  and a.status = '未通过'
+  and a.apply_time >= '2019-01-01'
+  and b.registe_date between '2019-01-01' and '2019-02-12'
+   or b.registe_date between '2019-03-14' and '2019-03-24'

@@ -1,0 +1,12 @@
+立盛-------广安市立盛数码通讯有限公司（四川）
+精美-------武胜县沿口精美通讯时尚店（四川）
+中惠-------广安中惠通讯有限责任公司
+铁通-------中移铁通有限公司广安分公司
+烈面鑫兴---武胜县烈面镇鑫兴移动营业厅（人民南路店）（四川）
+
+
+INSERT INTO xc_jinshang_disi_info
+VALUES('邻水县腾丰手机专卖店(四川）','广安'),
+
+
+/Users/Baiye/AppData/Local/Programs/Python/Python37/python",

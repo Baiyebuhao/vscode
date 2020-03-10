@@ -1,0 +1,12 @@
+244	统计需求   徐超	3、重要不紧急	2019.5.8	王欣	享宇钱包	2019.5.8	一次性需求			
+享宇钱包8.0.2版本是通过购买企业签名跳转浏览器下载更新的，之前购买了一个月，现在需要续签了，看是否在花2000购买企业签名	
+
+享宇钱包8.0.2版本有多少用户下载、点击		
+
+select count(distinct device_id),count(distinct mbl_no)
+from warehouse_newtrace_click_record b1
+where extractday >= '2019-04-01'
+and platform = 'xyqb'
+and app_version = '8.0.2'
+
+设备数5499	用户数4552
