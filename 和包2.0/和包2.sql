@@ -88,7 +88,7 @@ left join (select distinct province_code,
 select distinct b1.province_name, --省
 	   b1.city_name,              --市
 	   b1.region_name,            --县区名称
-	   '享宇' as channl,          --
+	   '享宇' as channl,          --渠道来源
 	   a1.merc_id,                --门店商户号
 	   a1.merc_nm,                --门店商户名称
 	   a1.dep_id,                 --营业厅编号
