@@ -8,3 +8,4 @@ select msd_return_time,
 date(substr(a.msd_return_time,1,10)) - interval '1' day as credit_date
 from warehouse_atomic_msd_withdrawals_result_info a
 limit 10
+

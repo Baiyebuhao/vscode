@@ -85,7 +85,7 @@ left join (select distinct province_code,
 )
 (2.放款明细数据
 
-select b1.province_name,
+select distinct b1.province_name,
 	   b1.city_name,
 	   b1.region_name,
 	   '享宇' as channl,
@@ -102,9 +102,9 @@ select b1.province_name,
 	   a2.brw_ord_sts,
 	   a2.brw_ord_msg,
 	   b2.credit_date,
-	   substr(a2.create_time,1,10) as r_date,
-	   a1.loan_amt,
-	   substr(a1.credit_time,1,10) as c_date
+	   substr(a2.create_time,1,10) as r_date,  --借款申请时间
+	   a1.loan_amt,                            --贷款金额
+	   substr(a1.credit_time,1,10) as c_date  ---借款申请时间
 	   
 from default.warehouse_hebao_loan_apply_info a1          ---借款申请信息表
 left join default.warehouse_hebao_prov_city_info b1
@@ -126,7 +126,7 @@ left join(select a.hb_usr_no,
 left join default.warehouse_hebao_loan_apply_status a2        ---借款申请状态表
   on a1.brw_ord_no = a2.brw_ord_no
   
-where a1.dep_nm <> '%测试门店%'
+where a1.dep_nm not like '%测试门店%'
 
 )
 
