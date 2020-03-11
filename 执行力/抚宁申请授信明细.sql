@@ -67,6 +67,4 @@ left join warehouse_atomic_hzx_b_bank_user a4
 where b1.bank_name like '%抚宁%'
 
 
---测试
-
 
