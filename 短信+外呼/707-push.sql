@@ -16,10 +16,10 @@ FROM
     where b.platform_id = '1') a1
 left outer join (select distinct mbl_no,data_source
                  from warehouse_data_user_withdrawals_info a
-				 where data_source = 'sjd'
-				   and product_name = '任性贷'
-				   and cash_amount > 0) a2
-            on a1.mbl_no = a2.mbl_no	  
+				         where data_source = 'sjd'
+				         and product_name = '任性贷'
+				         and cash_amount > 0) a2
+             on a1.mbl_no = a2.mbl_no	  
 WHERE a1.check_status= '1'
   AND a1.prod_name = '任性贷'
   and a2.mbl_no is null

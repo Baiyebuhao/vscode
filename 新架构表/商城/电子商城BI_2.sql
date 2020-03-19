@@ -117,6 +117,20 @@ JOIN(SELECT a.manager_name,
 GROUP BY substr(a1.create_date,1,10),
          a4.manager_name,
          a4.mall_name
+union all
+--累计活跃数
+select '累计活跃' AS code,
+       '' as extractday,
+	   '' as manager_name,
+       a3.platform as mall_name,
+	   count(distinct case when (length(a1.phone_number)<>0) and a1.phone_number is NOT NULL then a1.phone_number end) as mbl_num,
+	   count(distinct case when (length(a3.ip)<>0) and a3.ip is NOT NULL then a3.ip end) as num_1
+from default.warehouse_atomic_newframe_burypoint_buttonoperations a1   ---按钮
+join (select distinct start_id,platform,ip
+      from default.warehouse_atomic_newframe_burypoint_baseoperations     
+      where platform in ('交子普惠','宣化家银'))a3                                      --基础
+  on a1.start_id = a3.start_id
+group by a3.platform
 
 union all
 --累计注册量 
