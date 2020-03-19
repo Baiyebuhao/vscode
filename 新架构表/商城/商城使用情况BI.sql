@@ -23,7 +23,7 @@ select date_sub(current_date(),1) as extractday,
 	   case when a4.code = '上架商品' and a4.num = 1 then '是'
 	        when a4.code = '上架商品' and a4.num = 0 then '否'
 	   end as code4
-from 
+from
 (--1.开通商城的银行
 SELECT '开通商城' as code,
        a.contact_name,
