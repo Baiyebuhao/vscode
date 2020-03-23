@@ -69,7 +69,7 @@ create table xye_core_order_credit_test.credit_core_order
    sub_order_status     varchar(50) comment '订单子状态',
    channel_code         varchar(50) comment '订单来源渠道',
    user_code            varchar(50) comment '用户code',
-   user_account         varchar(50),
+   user_account         varchar(50) comment '用户账号（号码）',
    mobile               varchar(45) comment '手机',
    store_code           varchar(50) comment '店铺编码',
    store_name           varchar(200) comment '店铺名称',
