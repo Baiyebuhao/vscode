@@ -26,7 +26,9 @@ from
        a.research_status AS research_status,                     --'未调查-1,待预约1,待调查2,调查中3,调查完成4,拒绝本次申请5'
 	   
        d.mobile AS mobile,                                       --建档客户号码
-       d.id_card AS id_card                                      --建档客户身份证号
+       d.id_card AS id_card,                                     --建档客户身份证号
+       e.registe_date,
+       e.authentication_date
 	   
 FROM warehouse_atomic_hzx_research_task AS a 
 LEFT JOIN warehouse_atomic_hzx_b_bank_qr_code AS b  ON a.qrcode=b.id 

@@ -21,7 +21,7 @@ from
    JOIN warehouse_atomic_hzx_research_task AS a3 ON a2.id = a3.bank_pro_id
    JOIN warehouse_atomic_hzx_b_bank_base_info AS a4 ON a3.bank_id = a4.id
    where a2.id IS NOT NULL
-     and substr(a3.loan_apply_time,1,10) between '2020-01-01' and '2020-04-01'
+     and substr(a3.loan_apply_time,1,10) between '2020-01-01' and '2020-03-31'
     GROUP BY a4.name,
 	         CASE
                 WHEN a2.pro_type =1 THEN '信易贷'
@@ -48,14 +48,14 @@ select * from
        a2.id AS product_id,
        a2.name AS product_name,
 	   count(DISTINCT CASE
-                             WHEN a3.research_status = '4' THEN a3.customer_id
+                             WHEN a3.research_status in('4','5') THEN a3.customer_id
                          END) AS diaochaOver
    
    FROM warehouse_atomic_hzx_bank_product_info a2
    JOIN warehouse_atomic_hzx_research_task AS a3 ON a2.id = a3.bank_pro_id
    JOIN warehouse_atomic_hzx_b_bank_base_info AS a4 ON a3.bank_id = a4.id
    where a2.id IS NOT NULL
-     and substr(a3.research_over_time,1,10) between '2020-01-01' and '2020-04-01'
+     and substr(a3.research_over_time,1,10) between '2020-01-01' and '2020-03-31'
     GROUP BY a4.name,
 	         CASE
                 WHEN a2.pro_type =1 THEN '信易贷'
@@ -90,7 +90,7 @@ select * from 	                  --------sum(a5.diaochaOver)
    JOIN warehouse_atomic_hzx_research_task AS a3 ON a2.id = a3.bank_pro_id
    JOIN warehouse_atomic_hzx_b_bank_base_info AS a4 ON a3.bank_id = a4.id
    where a2.id IS NOT NULL
-     and substr(a3.research_over_time,1,10) between '2020-01-01' and '2020-04-01'
+     and substr(a3.research_over_time,1,10) between '2020-01-01' and '2020-03-31'
      and a3.rec_amount > 0
     GROUP BY a4.name,
 	         CASE
