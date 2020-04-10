@@ -51,7 +51,7 @@ select * from 	                  --------sum(a5.applyOver)
                                    '康保银丰村镇银行',
                                    '新密农商银行',
                                    '武陟农村商业银行')
-			   and a5.data_date between '2019-10-01' and '2019-12-31'
+			   and a5.data_date between '2019-10-01' and '2020-03-31'
 			   
 -----
 ---调查
@@ -106,7 +106,7 @@ select * from 	                  --------sum(a5.diaochaOver)
                                    '康保银丰村镇银行',
                                    '新密农商银行',
                                    '武陟农村商业银行')
-                 and a5.data_date between '2019-10-01' and '2019-12-31'	
+                 and a5.data_date between '2019-10-01' and '2020-03-31'	
 
 ---调查完成
 select * from 	                  --------sum(a5.diaochaOver)
@@ -124,7 +124,7 @@ select * from 	                  --------sum(a5.diaochaOver)
        a6.user_name,
 	   substr(a3.research_over_time,1,10) AS data_date,
 	   count(DISTINCT CASE
-                             WHEN a3.research_status = '4' THEN a3.customer_id
+                             WHEN a3.research_status in ('4','5') THEN a3.customer_id
                          END) AS diaochaOver
    
    FROM warehouse_atomic_hzx_bank_product_info a2
@@ -160,7 +160,7 @@ select * from 	                  --------sum(a5.diaochaOver)
                                    '康保银丰村镇银行',
                                    '新密农商银行',
                                    '武陟农村商业银行')
-                 and a5.data_date between '2019-10-01' and '2019-12-31'	
+                 and a5.data_date between '2019-10-01' and '2020-03-31'	
 				 
 ----
 ---通过客户
@@ -219,4 +219,4 @@ select * from 	                  --------sum(a5.diaochaOver)
                                    '康保银丰村镇银行',
                                    '新密农商银行',
                                    '武陟农村商业银行')
-                 and a5.data_date between '2019-10-01' and '2019-12-31'	
+                 and a5.data_date between '2019-10-01' and '2020-03-31'	

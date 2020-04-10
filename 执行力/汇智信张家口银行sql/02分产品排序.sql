@@ -22,11 +22,13 @@ where a1.m_state = '5'
                   '昌黎家银村镇银行',
                   '唐山市开平汇金村镇银行',
                   '蔚县银泰村镇银行',
-                  '康保银丰村镇银行')
+                  '康保银丰村镇银行',
+                  '新密农商银行',
+                  '武陟农村商业银行')
 group by substr(a1.loan_apply_time,1,10),
          a3.name
 		 )
-------
+------分产品排序
 ------申请完成
 select * from 	                  --------sum(a5.applyOver)
 (SELECT a4.name AS BankName,
@@ -41,7 +43,7 @@ select * from 	                  --------sum(a5.applyOver)
        a2.name AS product_name,
 	   substr(a3.loan_apply_time,1,10) AS data_date,
 	   count(DISTINCT CASE
-                             WHEN a3.m_state = 5 THEN a3.customer_id
+                             WHEN a3.m_state in ('4','5') THEN a3.customer_id
                          END) AS applyOver
    
    FROM warehouse_atomic_hzx_bank_product_info a2
@@ -71,7 +73,9 @@ select * from 	                  --------sum(a5.applyOver)
                                    '昌黎家银村镇银行',
                                    '唐山市开平汇金村镇银行',
                                    '蔚县银泰村镇银行',
-                                   '康保银丰村镇银行')
+                                   '康保银丰村镇银行',
+                                   '新密农商银行',
+                                   '武陟农村商业银行')
 			   and a5.data_date between '2019-10-01' and '2019-12-31'
 ---调查完成
 select * from 	                  --------sum(a5.diaochaOver)
@@ -117,7 +121,9 @@ select * from 	                  --------sum(a5.diaochaOver)
                                    '昌黎家银村镇银行',
                                    '唐山市开平汇金村镇银行',
                                    '蔚县银泰村镇银行',
-                                   '康保银丰村镇银行')
+                                   '康保银丰村镇银行',
+                                   '新密农商银行',
+                                   '武陟农村商业银行')
                  and a5.data_date between '2019-10-01' and '2019-12-31'			 
 			 
 ---通过客户
@@ -167,5 +173,7 @@ select * from 	                  --------sum(a5.diaochaOver)
                                    '昌黎家银村镇银行',
                                    '唐山市开平汇金村镇银行',
                                    '蔚县银泰村镇银行',
-                                   '康保银丰村镇银行')
+                                   '康保银丰村镇银行',
+                                   '新密农商银行',
+                                   '武陟农村商业银行')
                  and a5.data_date between '2019-10-01' and '2019-12-31'					 

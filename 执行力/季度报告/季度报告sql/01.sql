@@ -1,14 +1,51 @@
-(
---申请调查表warehouse_atomic_hzx_research_task
---customer_id 客户id
---loan_apply_time 贷款申请时间
---m_state 营销完成-5
---research_apply_time 调查时间
---research_status 调查完成4
---research_over_time 调查完成时间
---rec_amount 建议额度
---bank_id 银行id
-)
+--1.汇智信建档
+SELECT substr(c_date,1,10) as c_date,
+       bank_name,
+       count(DISTINCT mobile_phone) as mbl_num
+from 
+(SELECT a1.c_time as c_date,                        --建档时间
+       a2.name as bank_name,                       --银行名称
+	   a1.dot_id,                                  --网点ID
+	   a4.dot_name,                                -- 网点名
+	   a1.c_user as c_user,                        --客户经理ID
+	   a3.user_name as user_name,                  --客户经理
+	   a1.m_id as customer_owner_id,  --客户归属ID
+       a1.id as id,                                --客户建档ID 
+       a1.mobile as mobile_phone, --客户建档号码
+	   a1.id_card as id_card                       --客户身份证号
+FROM warehouse_atomic_hzx_c_customer AS a1
+left join warehouse_atomic_hzx_b_bank_base_info a2  
+       on a1.bank_id = a2.id
+left join warehouse_atomic_hzx_b_bank_user a3
+       on a1.c_user = a3.id
+	  and a2.id = a3.bank_id
+	  
+left join warehouse_atomic_hzx_b_dot a4
+       on a1.bank_id = a4.bank_id
+	  and a1.dot_id = a4.id
+where a1.id is not null
+  and a1.mobile is not null
+) a
+where bank_name in ('阜城家银村镇银行',
+                  '武强家银村镇银行',
+                  '万全家银村镇银行',
+                  '赤城家银村镇银行',
+                  '卢龙家银村镇银行',
+                  '宣化家银村镇银行',
+                  '秦皇岛抚宁家银村镇银行',
+                  '张北信达村镇银行',
+                  '故城家银村镇银行',
+                  '昌黎家银村镇银行',
+                  '唐山市开平汇金村镇银行',
+                  '蔚县银泰村镇银行',
+                  '康保银丰村镇银行',
+                  '新密农商银行',
+                  '武陟农村商业银行')
+  and substr(c_date,1,10) between '2019-10-01' and '2020-03-31'
+GROUP BY substr(c_date,1,10),
+         bank_name 
+
+ 
 ---取申请完成
 ---warehouse_atomic_hzx_research_task
 select substr(a1.loan_apply_time,1,10) as apply_date,
@@ -18,7 +55,7 @@ from warehouse_atomic_hzx_research_task a1
 left join warehouse_atomic_hzx_b_bank_base_info a2
 on a1.bank_id = a2.id
 where a1.m_state = '5'
-  and substr(a1.loan_apply_time,1,10) between '2019-10-01' and '2019-12-31'
+  and substr(a1.loan_apply_time,1,10) between '2019-10-01' and '2020-03-31'
   and a2.name in ('阜城家银村镇银行',
                   '武强家银村镇银行',
                   '万全家银村镇银行',
@@ -45,8 +82,8 @@ select substr(a1.research_over_time,1,10) as diaocha_date,
 from warehouse_atomic_hzx_research_task a1
 left join warehouse_atomic_hzx_b_bank_base_info a2
 on a1.bank_id = a2.id
-where a1.research_status = '4'
-  and substr(a1.research_over_time,1,10) between '2019-10-01' and '2019-12-31'
+where a1.research_status in('4','5')
+  and substr(a1.research_over_time,1,10) between '2019-10-01' and '2020-03-31'
   and a2.name in ('阜城家银村镇银行',
                   '武强家银村镇银行',
                   '万全家银村镇银行',
@@ -64,7 +101,7 @@ where a1.research_status = '4'
                   '武陟农村商业银行')
 group by substr(a1.research_over_time,1,10),
          a2.name
-
+		 
 ---取审批通过（有金额）
 ---warehouse_atomic_hzx_research_task
 select substr(a1.research_over_time,1,10) as diaocha_date,
@@ -75,7 +112,7 @@ from warehouse_atomic_hzx_research_task a1
 left join warehouse_atomic_hzx_b_bank_base_info a2
 on a1.bank_id = a2.id
 where a1.research_status = '4'
-  and substr(a1.research_over_time,1,10) between '2019-10-01' and '2019-12-31'
+  and substr(a1.research_over_time,1,10) between '2019-10-01' and '2020-03-31'
   and a1.rec_amount > '0'
   and a2.name in ('阜城家银村镇银行',
                   '武强家银村镇银行',
