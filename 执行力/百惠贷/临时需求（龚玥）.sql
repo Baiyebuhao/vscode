@@ -137,7 +137,7 @@ FROM warehouse_atomic_hzx_research_task AS a
 LEFT JOIN warehouse_atomic_hzx_b_bank_qr_code AS b  ON a.qrcode=b.id 
 LEFT JOIN warehouse_atomic_hzx_b_bank_base_info AS c  ON a.bank_id=c.id 
 LEFT JOIN warehouse_atomic_hzx_c_customer AS d  ON a.customer_id=d.id
-left join (select * from default.warehouse_atomic_time_user a
+left join (select * from default.warehouse_atomic_time_user a   ---判断是否线上
            WHERE a.data_source in ('bhh','bhd')
 		   AND substr(a.registe_date,1,10) between '2020-03-01' and '2020-03-31') e
 		   on d.mobile = e.mbl_no
