@@ -1,3 +1,5 @@
+--每日分时注册2
+
 --2.1手机贷、享宇钱包
 select substr(registe_date,1,10) as registe_date,
        substr(registe_date,12,2) as registe_time,
