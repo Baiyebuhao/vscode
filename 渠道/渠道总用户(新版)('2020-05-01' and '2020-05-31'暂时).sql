@@ -1,4 +1,4 @@
----渠道新用户(新版)('2020-05-01' and '2020-05-31'暂时)(BI重构）
+---渠道总用户(新版)('2020-05-01' and '2020-05-31'暂时)(BI重构）
 SELECT data_source,
        the_2nd_level,
        the_3rd_level,
@@ -20,7 +20,7 @@ SELECT data_source,
        sum(cash_amount) AS cash_amount
 from
 (
---------新注册用户注册
+--------注册用户注册
 select '注册' AS code,
        a.data_source,
        a.registe_date AS extractday,
@@ -66,7 +66,7 @@ where substring(a.registe_date,1,10) between '2020-05-01' and '2020-05-31'      
   and a.data_source in ('jry','bhd')
 
 UNION ALL
---------新注册用户申请
+--------用户申请
 select '申请' AS code,
        a.data_source,
        c.apply_time AS extractday,
@@ -83,11 +83,10 @@ from warehouse_atomic_user_info a
          on a.data_source = b.data_source 
         and a.chan_no = b.chan_no 
         and a.child_chan = b.child_chan
-     left join warehouse_data_user_review_info c
+     right join warehouse_data_user_review_info c
          on a.mbl_no = c.mbl_no 
         and a.data_source = c.data_source
-where a.registe_date between '2020-05-01' and '2020-05-31'               ---------选择注册时间维度
-  and a.data_source in ('sjd','xyqb')
+where a.data_source in ('sjd','xyqb')
   and c.apply_time between '2020-05-01' and '2020-05-31'                 ---------选择申请时间维度
 
 UNION ALL
@@ -111,15 +110,14 @@ LEFT JOIN
       ON a.chan_no = b.promoter_code   --渠道号
      AND a.app_code=b.mall_code       --商城号
 
-left join warehouse_data_user_review_info c
+right join warehouse_data_user_review_info c
        on a.mbl_no = c.mbl_no 
       and a.data_source = c.data_source
-where substring(a.registe_date,1,10) between '2020-05-01' and '2020-05-31'            ---------选择注册时间维度
-  and a.data_source in ('jry','bhd')
+where a.data_source in ('jry','bhd')
   and c.apply_time between '2020-05-01' and '2020-05-31'                  ---------选择申请时间维度
 
 UNION ALL
---------新注册用户授信
+--------用户授信
 select '授信' AS code,
        a.data_source,
        c.credit_time AS extractday,
@@ -136,11 +134,10 @@ from warehouse_atomic_user_info a
          on a.data_source = b.data_source 
         and a.chan_no = b.chan_no 
         and a.child_chan = b.child_chan
-     left join warehouse_data_user_review_info c
+     right join warehouse_data_user_review_info c
          on a.mbl_no = c.mbl_no 
         and a.data_source = c.data_source
-where a.registe_date between '2020-05-01' and '2020-05-31'               ---------选择注册时间维度
-  and a.data_source in ('sjd','xyqb')
+where a.data_source in ('sjd','xyqb')
   and c.credit_time between '2020-05-01' and '2020-05-31'                 ---------选择授信时间维度
   and c.status = '通过'
 
@@ -165,16 +162,15 @@ LEFT JOIN
       ON a.chan_no = b.promoter_code   --渠道号
      AND a.app_code=b.mall_code       --商城号
 	 
-left join warehouse_data_user_review_info c
+right join warehouse_data_user_review_info c
        on a.mbl_no = c.mbl_no 
       and a.data_source = c.data_source
-where substring(a.registe_date,1,10) between '2020-05-01' and '2020-05-31'               ---------选择注册时间维度
-  and a.data_source in ('jry','bhd')
+where a.data_source in ('jry','bhd')
   and c.credit_time between '2020-05-01' and '2020-05-31'                 ---------选择授信时间维度
   and c.status = '通过'
 
 UNION ALL
-----------新注册用户提现
+----------用户提现
 select '提现' AS code,
        a.data_source,
        c.cash_time AS extractday,
@@ -191,11 +187,10 @@ from warehouse_atomic_user_info a
          on a.data_source = b.data_source 
         and a.chan_no = b.chan_no 
         and a.child_chan = b.child_chan        
-     left join warehouse_data_user_withdrawals_info c
+     right join warehouse_data_user_withdrawals_info c
          on a.mbl_no = c.mbl_no 
         and a.data_source = c.data_source
-where a.registe_date between '2020-05-01' and '2020-05-31'               ---------选择注册时间维度
-  and a.data_source in ('sjd','xyqb')
+where a.data_source in ('sjd','xyqb')
   and c.cash_time between '2020-05-01' and '2020-05-31'                 ---------选择提现时间维度
   and c.cash_amount > 0
 
@@ -220,11 +215,10 @@ LEFT JOIN
       ON a.chan_no = b.promoter_code   --渠道号
      AND a.app_code=b.mall_code       --商城号
 	      
-left join warehouse_data_user_withdrawals_info c
+right join warehouse_data_user_withdrawals_info c
        on a.mbl_no = c.mbl_no 
       and a.data_source = c.data_source
-where substring(a.registe_date,1,10) between '2020-05-01' and '2020-05-31'               ---------选择注册时间维度
-  and a.data_source in ('jry','bhd')
+where a.data_source in ('jry','bhd')
   and c.cash_time between '2020-05-01' and '2020-05-31'                 ---------选择提现时间维度
   and c.cash_amount > 0
 ) as a1
