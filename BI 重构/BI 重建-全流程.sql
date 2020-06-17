@@ -222,7 +222,7 @@ LEFT JOIN
 		      
 ON a2.channel_code = a3.promoter_code   --渠道号
 AND a2.mall_code=a3.mall_code       --商城号
-where a2.goods_name <> '信用钱包'
+
 ) a
 where extractday <= date_sub(current_date(),1)
 group by data_source,

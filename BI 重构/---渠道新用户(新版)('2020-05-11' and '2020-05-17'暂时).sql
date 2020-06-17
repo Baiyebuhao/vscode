@@ -1,4 +1,4 @@
----渠道新用户(新版)('2020-06-01' and '2020-06-07'暂时)(BI重构）
+---渠道新用户(新版)('2020-06-08' and '2020-06-14'暂时)(BI重构）
 SELECT data_source,
        the_2nd_level,
        the_3rd_level,
@@ -37,7 +37,7 @@ from warehouse_atomic_user_info a
          on a.data_source = b.data_source 
          and a.chan_no = b.chan_no 
          and a.child_chan = b.child_chan
-where a.registe_date between '2020-06-01' and '2020-06-07'                   ---------选择注册时间维度
+where a.registe_date between '2020-06-08' and '2020-06-14'                   ---------选择注册时间维度
   and a.data_source in ('sjd','xyqb')
 UNION ALL
 select '注册' AS code,
@@ -62,7 +62,7 @@ LEFT JOIN
      ON a.chan_no = b.promoter_code   --渠道号
      AND a.app_code=b.mall_code       --商城号
 
-where substring(a.registe_date,1,10) between '2020-06-01' and '2020-06-07'                  ---------选择注册时间维度
+where substring(a.registe_date,1,10) between '2020-06-08' and '2020-06-14'                  ---------选择注册时间维度
   and a.data_source in ('jry','bhd')
 
 UNION ALL
@@ -86,9 +86,9 @@ from warehouse_atomic_user_info a
      left join warehouse_data_user_review_info c
          on a.mbl_no = c.mbl_no 
         and a.data_source = c.data_source
-where a.registe_date between '2020-06-01' and '2020-06-07'               ---------选择注册时间维度
+where a.registe_date between '2020-06-08' and '2020-06-14'               ---------选择注册时间维度
   and a.data_source in ('sjd','xyqb')
-  and c.apply_time between '2020-06-01' and '2020-06-07'                 ---------选择申请时间维度
+  and c.apply_time between '2020-06-08' and '2020-06-14'                 ---------选择申请时间维度
 
 UNION ALL
 select '申请' AS code,
@@ -114,9 +114,9 @@ LEFT JOIN
 left join warehouse_data_user_review_info c
        on a.mbl_no = c.mbl_no 
       and a.data_source = c.data_source
-where substring(a.registe_date,1,10) between '2020-06-01' and '2020-06-07'            ---------选择注册时间维度
+where substring(a.registe_date,1,10) between '2020-06-08' and '2020-06-14'            ---------选择注册时间维度
   and a.data_source in ('jry','bhd')
-  and c.apply_time between '2020-06-01' and '2020-06-07'                  ---------选择申请时间维度
+  and c.apply_time between '2020-06-08' and '2020-06-14'                  ---------选择申请时间维度
 
 UNION ALL
 --------新注册用户授信
@@ -139,9 +139,9 @@ from warehouse_atomic_user_info a
      left join warehouse_data_user_review_info c
          on a.mbl_no = c.mbl_no 
         and a.data_source = c.data_source
-where a.registe_date between '2020-06-01' and '2020-06-07'               ---------选择注册时间维度
+where a.registe_date between '2020-06-08' and '2020-06-14'               ---------选择注册时间维度
   and a.data_source in ('sjd','xyqb')
-  and c.credit_time between '2020-06-01' and '2020-06-07'                 ---------选择授信时间维度
+  and c.credit_time between '2020-06-08' and '2020-06-14'                 ---------选择授信时间维度
   and c.status = '通过'
 
 UNION ALL
@@ -168,9 +168,9 @@ LEFT JOIN
 left join warehouse_data_user_review_info c
        on a.mbl_no = c.mbl_no 
       and a.data_source = c.data_source
-where substring(a.registe_date,1,10) between '2020-06-01' and '2020-06-07'               ---------选择注册时间维度
+where substring(a.registe_date,1,10) between '2020-06-08' and '2020-06-14'               ---------选择注册时间维度
   and a.data_source in ('jry','bhd')
-  and c.credit_time between '2020-06-01' and '2020-06-07'                 ---------选择授信时间维度
+  and c.credit_time between '2020-06-08' and '2020-06-14'                 ---------选择授信时间维度
   and c.status = '通过'
 
 UNION ALL
@@ -194,9 +194,9 @@ from warehouse_atomic_user_info a
      left join warehouse_data_user_withdrawals_info c
          on a.mbl_no = c.mbl_no 
         and a.data_source = c.data_source
-where a.registe_date between '2020-06-01' and '2020-06-07'               ---------选择注册时间维度
+where a.registe_date between '2020-06-08' and '2020-06-14'               ---------选择注册时间维度
   and a.data_source in ('sjd','xyqb')
-  and c.cash_time between '2020-06-01' and '2020-06-07'                 ---------选择提现时间维度
+  and c.cash_time between '2020-06-08' and '2020-06-14'                 ---------选择提现时间维度
   and c.cash_amount > 0
 
 UNION ALL
@@ -223,9 +223,9 @@ LEFT JOIN
 left join warehouse_data_user_withdrawals_info c
        on a.mbl_no = c.mbl_no 
       and a.data_source = c.data_source
-where substring(a.registe_date,1,10) between '2020-06-01' and '2020-06-07'               ---------选择注册时间维度
+where substring(a.registe_date,1,10) between '2020-06-08' and '2020-06-14'               ---------选择注册时间维度
   and a.data_source in ('jry','bhd')
-  and c.cash_time between '2020-06-01' and '2020-06-07'                 ---------选择提现时间维度
+  and c.cash_time between '2020-06-08' and '2020-06-14'                 ---------选择提现时间维度
   and c.cash_amount > 0
 ) as a1
 group by data_source,
