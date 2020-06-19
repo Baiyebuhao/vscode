@@ -87,7 +87,7 @@ join warehouse_atomic_user_info a5
  and a5.app_code=a1.mall_code
  and substring(a5.registe_date,1,10) = substring(a1.extractday,1,10)
 where a1.channel_code is not null
-  and substr(a1.extractday,1,10) >= date_sub(current_date(),90)
+  and a1.extractday >= date_sub(current_date(),90)
 
 union all
 

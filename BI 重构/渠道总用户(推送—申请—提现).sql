@@ -58,7 +58,7 @@ from
            from default.warehouse_atomic_newframe_burypoint_baseoperations)b                            --基础
        on a.start_id = b.start_id
  where a.click_name = 'order_promptly'
-   and substr(a.extractday,1,10)>= date_sub(current_date(),40)) a1
+   and a.extractday>= date_sub(current_date(),40)) a1
  
 left join(select mall_code,
                  mall_name 

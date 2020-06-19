@@ -61,6 +61,3 @@ join warehouse_atomic_user_info a5
 
 where a1.channel_code is not null
   and substring(a5.registe_date,1,10) = substring(a1.extractday,1,10)
-
-
-
