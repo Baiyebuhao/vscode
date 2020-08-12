@@ -215,6 +215,27 @@ FROM
                     if(check_status=1,cast(int(check_amount) AS decimal(12,2))/100,0) AS amount
    FROM default.warehouse_atomic_api_loan_record AS a
    WHERE mht_apply_no IS NOT NULL
+   and pro_name<>'助粒贷'
+   UNION ALL  SELECT a.mbl_no,
+					CASE
+					WHEN a.platform_id=1 THEN 'sjd'
+					WHEN a.platform_id=2 THEN 'jry'
+					WHEN a.platform_id=4 THEN 'xyqb'
+					END platform,
+					substr(d.create_time,1,10) AS apply_time,
+					--授信记录创建时间，新用户的授信记录创建时间与授信时间check_time是同一天
+					--老用户可能现有check_time，再有create_time
+					'助粒贷' AS product_name,
+    				if(d.status=1,'通过','未通过') AS status,
+    				if(d.status=1,cast(int(d.check_amount) AS decimal(12,2))/100,0) AS amount
+   FROM warehouse_atomic_api_p_user_info a
+   JOIN warehouse_atomic_api_p_user_prod_inf b ON a.id=b.user_id
+   JOIN warehouse_atomic_api_p_order_inf c ON b.id=c.user_prod_id
+   JOIN warehouse_atomic_api_p_apply_record d ON c.id=d.order_id
+   JOIN warehouse_atomic_api_p_prod_inf e ON b.prod_id=e.id
+   WHERE e.prod_name='助粒贷' 
+   --助粒贷是授信成功才返mht_apply_no，其他API产品是所有申请都会返
+   --助粒贷status：0 授信中，1授信成功，2授信失败  3 预授信成功  4 鉴权成功 5 鉴权处理中'
    UNION ALL SELECT distinct mbl_no,
                     data_source,
                     substr(apply_time,1,10) AS apply_time,
@@ -616,7 +637,24 @@ FROM
                     cast(payment_amount AS decimal(12,2))/100 AS amount,
                     prod_name AS product_name
    FROM default.warehouse_atomic_api_loan_record AS a
-   WHERE mht_payment_no IS NOT NULL
+   WHERE mht_payment_no IS NOT NULL and payment_status in ('1','3')--0处理中，1成功，2失败，3已还清，
+   and prod_name<>'助粒贷'
+   UNION ALL SELECT d.mbl_no,
+       CASE
+           WHEN d.platform_id=1 THEN 'sjd'
+           WHEN d.platform_id=2 THEN 'jry'
+           WHEN d.platform_id=4 THEN 'xyqb'
+       END platform,
+       substr(a.payment_time,1,10) AS apply_time, 
+       cast(payment_amount AS decimal(12,2))/100 AS amount,
+	   '助粒贷' AS product_name
+   FROM warehouse_atomic_api_p_payment_record a
+   INNER JOIN warehouse_atomic_api_p_user_prod_inf b ON a.openid = b.org_user_id
+   INNER JOIN warehouse_atomic_api_p_prod_inf c ON b.prod_id = c.id
+   INNER JOIN warehouse_atomic_api_p_user_info d ON b.user_id = d.id
+   WHERE  c.prod_name = '助粒贷' 
+   and a.status  in ('1','3') 
+   --助粒贷放款只能用openid关联
    UNION ALL SELECT mbl_no,
                     data_source,
                     substr(lending_time,1,10) AS apply_time,
@@ -2204,8 +2242,7 @@ FROM
                     year(a.extractday),
                     weekofyear(a.extractday)
    FROM warehouse_data_user_review_withdrawals_info AS a
-   JOIN warehouse_data_user_channel_info AS b 
-   ON a.data_source=b.data_source
+   JOIN warehouse_data_user_channel_info AS b ON a.data_source=b.data_source
    AND a.mbl_no=b.mbl_no
    AND year(a.extractday)=year(b.register_date)
    AND weekofyear(a.extractday)=weekofyear(b.register_date)

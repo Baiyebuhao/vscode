@@ -1,0 +1,20 @@
+CREATE TABLE `p_prod_inf` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `platform_id` int(1) DEFAULT NULL COMMENT '平台id',
+  `platform_prod_id` varchar(20) DEFAULT NULL COMMENT '平台产品id',
+  `prod_name` varchar(40) DEFAULT NULL COMMENT '产品名称',
+  `prod_server_name` varchar(40) DEFAULT NULL COMMENT '产品服务名',
+  `amount_text` varchar(20) DEFAULT NULL COMMENT '额度文案',
+  `amount` varchar(40) DEFAULT NULL COMMENT '额度',
+  `min_amount` varchar(20) DEFAULT NULL COMMENT '最低提现额度',
+  `rate` varchar(40) DEFAULT NULL COMMENT '利率',
+  `button_text` varchar(20) DEFAULT NULL COMMENT '按钮文案',
+  `agreement_text` varchar(40) DEFAULT NULL COMMENT '协议文案',
+  `agreement_url` varchar(200) DEFAULT NULL COMMENT '协议地址（url）',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `org_id` bigint(20) DEFAULT NULL,
+  `guide_text` varchar(200) DEFAULT NULL COMMENT '产品授信主页引导文案',
+  `prod_type` int(2) DEFAULT '0' COMMENT '产品类型   0 身份证做唯一标识  1 手机号做唯一标识',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=40000064 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='产品信息表';
